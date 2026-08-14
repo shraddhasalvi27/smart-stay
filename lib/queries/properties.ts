@@ -1,96 +1,141 @@
 import { driver } from "../congodb";
 
-export async function getPropertyRecommendations(userId: string) {
+
+export async function recommendProperties(userId: string) {
   const session = driver.session();
 
   try {
     const result = await session.run(
       `
       MATCH (u:User {id: $userId})
-      MATCH (u)-[:LOOKING_IN]->(location:Location)
-      MATCH (property:Property)-[:LOCATED_IN]->(location)
-      MATCH (property)-[:HAS_ROOM]->(room:Room)
 
-      WHERE
-        property.rent <= u.budget
-        AND room.available = true
+      // User's preferred location
+      OPTIONAL MATCH (u)-[:LOOKING_IN]->(preferredLocation:Location)
+
+      // User's preferred amenities
+      OPTIONAL MATCH (u)-[:WANTS]->(wantedAmenity:Amenity)
+
+      // User's lifestyle
+      OPTIONAL MATCH (u)-[:PREFERS]->(lifestyle:Lifestyle)
+
+      // User's workplace
+      OPTIONAL MATCH (u)-[:WORKS_AT]->(company:Company)
+      OPTIONAL MATCH (company)-[:LOCATED_IN]->(workLocation:Location)
+
+      // Properties
+      MATCH (p:Property)-[:LOCATED_IN]->(propertyLocation:Location)
+
+      // Property amenities
+      OPTIONAL MATCH (p)-[:HAS_AMENITY]->(propertyAmenity:Amenity)
+
+      WITH
+        u,
+        p,
+        propertyLocation,
+        preferredLocation,
+        workLocation,
+
+        collect(DISTINCT wantedAmenity.id) AS wantedAmenities,
+        collect(DISTINCT propertyAmenity.id) AS propertyAmenities
+
+      // Count matching amenities
+      WITH
+        u,
+        p,
+        propertyLocation,
+        preferredLocation,
+        workLocation,
+        wantedAmenities,
+        propertyAmenities,
+
+        size([
+          amenity IN wantedAmenities
+          WHERE amenity IN propertyAmenities
+        ]) AS matchingAmenities
+
+      // Calculate scores
+      WITH
+        u,
+        p,
+        propertyLocation,
+        workLocation,
+        matchingAmenities,
+
+        CASE
+          WHEN preferredLocation.id = propertyLocation.id
+          THEN 30
+          ELSE 0
+        END AS locationScore,
+
+        CASE
+          WHEN p.rent <= u.budget
+          THEN 25
+          ELSE 0
+        END AS budgetScore,
+
+        CASE
+          WHEN workLocation.id = propertyLocation.id
+          THEN 15
+          ELSE 0
+        END AS workplaceScore,
+
+        matchingAmenities * 10 AS amenityScore
+
+      WITH
+        p,
+        propertyLocation,
+        matchingAmenities,
+        locationScore,
+        budgetScore,
+        workplaceScore,
+        amenityScore,
+
+        locationScore +
+        budgetScore +
+        workplaceScore +
+        amenityScore AS totalScore
 
       RETURN
-        property.id AS propertyId,
-        property.name AS propertyName,
-        property.rent AS rent,
-        property.type AS type,
-        property.bedrooms AS bedrooms,
-        location.name AS location,
-        room.name AS roomName
-      ORDER BY property.rent ASC
-      `,
-      { userId }
-    );
+        p.id AS id,
+        p.name AS name,
+        p.rent AS rent,
+        p.type AS type,
+        p.bedrooms AS bedrooms,
+        propertyLocation.name AS location,
 
-    return result.records.map((record) => ({
-      propertyId: record.get("propertyId"),
-      propertyName: record.get("propertyName"),
-      rent: record.get("rent"),
-      type: record.get("type"),
-      bedrooms: record.get("bedrooms"),
-      location: record.get("location"),
-      roomName: record.get("roomName"),
-    }));
-  } finally {
-    await session.close();
-  }
-}
+        matchingAmenities,
+        locationScore,
+        budgetScore,
+        workplaceScore,
+        amenityScore,
 
-export async function searchProperties(filters: {
-  location?: string;
-  maxBudget?: number;
-  propertyType?: string;
-}) {
-  const session = driver.session();
+        totalScore
 
-  try {
-    const result = await session.run(
-      `
-      MATCH (property:Property)-[:LOCATED_IN]->(location:Location)
-      MATCH (property)-[:HAS_ROOM]->(room:Room)
-
-      WHERE
-        room.available = true
-        AND ($location IS NULL OR location.name = $location)
-        AND ($maxBudget IS NULL OR property.rent <= $maxBudget)
-        AND ($propertyType IS NULL OR property.type = $propertyType)
-
-      OPTIONAL MATCH (property)-[:NEAR_METRO]->(metro:MetroStation)
-
-      RETURN
-        property.id AS propertyId,
-        property.name AS propertyName,
-        property.rent AS rent,
-        property.type AS type,
-        property.bedrooms AS bedrooms,
-        location.name AS location,
-        room.name AS roomName,
-        COUNT(metro) AS metroCount
-
-      ORDER BY property.rent ASC
+      ORDER BY totalScore DESC
       `,
       {
-        location: filters.location ?? null,
-        maxBudget: filters.maxBudget ?? null,
-        propertyType: filters.propertyType ?? null,
+        userId,
       }
     );
 
     return result.records.map((record) => ({
-      propertyId: record.get("propertyId"),
-      propertyName: record.get("propertyName"),
+      id: record.get("id"),
+      name: record.get("name"),
       rent: record.get("rent"),
       type: record.get("type"),
       bedrooms: record.get("bedrooms"),
       location: record.get("location"),
-      roomName: record.get("roomName"),
-      metroCount: record.get("metroCount"),
+
+      score: record.get("totalScore"),
+
+      breakdown: {
+        location: record.get("locationScore"),
+        budget: record.get("budgetScore"),
+        workplace: record.get("workplaceScore"),
+        amenities: record.get("amenityScore"),
+      },
+
+      matchingAmenities: record.get("matchingAmenities"),
     }));
   } finally {
     await session.close();
