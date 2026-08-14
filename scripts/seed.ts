@@ -47,7 +47,7 @@ async function seed() {
             ],
         });
 
-        console.log("✅ Locations created");
+        console.log(" Locations created");
 
 
         // AMENITIES
@@ -66,7 +66,7 @@ async function seed() {
             ],
         });
 
-        console.log("✅ Amenities created");
+        console.log("Amenities created");
 
 
         // LIFESTYLES
@@ -81,10 +81,34 @@ async function seed() {
                 { id: "life-social", name: "Social" },
                 { id: "life-active", name: "Active" },
                 { id: "life-work", name: "Work Focused" },
+                {
+                    userId: "user-5",
+                    lifestyleId: "life-work",
+                },
+                {
+                    userId: "user-6",
+                    lifestyleId: "life-social",
+                },
+                {
+                    userId: "user-7",
+                    lifestyleId: "life-work",
+                },
+                {
+                    userId: "user-8",
+                    lifestyleId: "life-quiet",
+                },
+                {
+                    userId: "user-9",
+                    lifestyleId: "life-active",
+                },
+                {
+                    userId: "user-10",
+                    lifestyleId: "life-social",
+                },
             ],
         });
 
-        console.log("✅ Lifestyles created");
+        console.log(" Lifestyles created");
 
 
         // COMPANIES
@@ -102,7 +126,7 @@ async function seed() {
             ],
         });
 
-        console.log("✅ Companies created");
+        console.log("Companies created");
 
 
         // USERS
@@ -146,14 +170,56 @@ async function seed() {
                     budget: 17000,
                     occupation: "Marketing",
                 },
+                {
+                    id: "user-5",
+                    name: "Aarav",
+                    age: 27,
+                    budget: 22000,
+                    occupation: "Product Manager",
+                },
+                {
+                    id: "user-6",
+                    name: "Isha",
+                    age: 23,
+                    budget: 16000,
+                    occupation: "UI/UX Designer",
+                },
+                {
+                    id: "user-7",
+                    name: "Vikram",
+                    age: 30,
+                    budget: 28000,
+                    occupation: "Data Scientist",
+                },
+                {
+                    id: "user-8",
+                    name: "Meera",
+                    age: 26,
+                    budget: 19000,
+                    occupation: "HR Manager",
+                },
+                {
+                    id: "user-9",
+                    name: "Rohan",
+                    age: 29,
+                    budget: 24000,
+                    occupation: "Backend Developer",
+                },
+                {
+                    id: "user-10",
+                    name: "Kavya",
+                    age: 25,
+                    budget: 21000,
+                    occupation: "Marketing Manager",
+                },
             ],
         });
 
-        console.log("✅ Users created");
+        console.log("Users created");
 
-        // =========================
+
         // PROPERTIES
-        // =========================
+
 
         await session.run(`
       UNWIND $properties AS property
@@ -194,14 +260,56 @@ async function seed() {
                     type: "1BHK",
                     bedrooms: 1,
                 },
+                {
+                    id: "property-5",
+                    name: "Lakeview Residency",
+                    rent: 20000,
+                    type: "2BHK",
+                    bedrooms: 2,
+                },
+                {
+                    id: "property-6",
+                    name: "Andheri Prime",
+                    rent: 14000,
+                    type: "1BHK",
+                    bedrooms: 1,
+                },
+                {
+                    id: "property-7",
+                    name: "Bandra Elite",
+                    rent: 26000,
+                    type: "3BHK",
+                    bedrooms: 3,
+                },
+                {
+                    id: "property-8",
+                    name: "Ghatkopar Gardens",
+                    rent: 17000,
+                    type: "2BHK",
+                    bedrooms: 2,
+                },
+                {
+                    id: "property-9",
+                    name: "BKC Corporate Stay",
+                    rent: 24000,
+                    type: "2BHK",
+                    bedrooms: 2,
+                },
+                {
+                    id: "property-10",
+                    name: "Powai Lake Homes",
+                    rent: 19000,
+                    type: "2BHK",
+                    bedrooms: 2,
+                },
             ],
         });
 
-        console.log("✅ Properties created");
+        console.log(" Properties created");
 
-        // =========================
+
         // ROOMS
-        // =========================
+
 
         await session.run(`
       UNWIND $rooms AS room
@@ -242,14 +350,56 @@ async function seed() {
                     type: "Private",
                     available: true,
                 },
+                {
+                    id: "room-5",
+                    name: "Lakeview Residency Room",
+                    rent: 20000,
+                    type: "Private",
+                    available: true,
+                },
+                {
+                    id: "room-6",
+                    name: "Andheri Prime Room",
+                    rent: 14000,
+                    type: "Private",
+                    available: true,
+                },
+                {
+                    id: "room-7",
+                    name: "Bandra Elite Room",
+                    rent: 26000,
+                    type: "Private",
+                    available: true,
+                },
+                {
+                    id: "room-8",
+                    name: "Ghatkopar Gardens Room",
+                    rent: 17000,
+                    type: "Private",
+                    available: true,
+                },
+                {
+                    id: "room-9",
+                    name: "BKC Corporate Room",
+                    rent: 24000,
+                    type: "Private",
+                    available: true,
+                },
+                {
+                    id: "room-10",
+                    name: "Powai Lake Homes Room",
+                    rent: 19000,
+                    type: "Private",
+                    available: true,
+                },
             ],
         });
 
-        console.log("✅ Rooms created");
+        console.log(" Rooms created");
 
-        // =========================
+
         // METRO STATIONS
-        // =========================
+
 
         await session.run(`
       UNWIND $stations AS station
@@ -265,7 +415,7 @@ async function seed() {
             ],
         });
 
-        console.log("✅ Metro stations created");
+        console.log(" Metro stations created");
 
         console.log("🎉 All SmartStay nodes created!");
         // =========================
@@ -289,7 +439,7 @@ async function seed() {
             ],
         });
 
-        console.log("✅ Properties connected to locations");
+        console.log(" Properties connected to locations");
 
 
         // PROPERTY → ROOM
@@ -306,10 +456,34 @@ async function seed() {
                 { propertyId: "property-2", roomId: "room-2" },
                 { propertyId: "property-3", roomId: "room-3" },
                 { propertyId: "property-4", roomId: "room-4" },
+                {
+                    propertyId: "property-5",
+                    roomId: "room-5",
+                },
+                {
+                    propertyId: "property-6",
+                    roomId: "room-6",
+                },
+                {
+                    propertyId: "property-7",
+                    roomId: "room-7",
+                },
+                {
+                    propertyId: "property-8",
+                    roomId: "room-8",
+                },
+                {
+                    propertyId: "property-9",
+                    roomId: "room-9",
+                },
+                {
+                    propertyId: "property-10",
+                    roomId: "room-10",
+                },
             ],
         });
 
-        console.log("✅ Properties connected to rooms");
+        console.log("Properties connected to rooms");
 
 
         // PROPERTY → AMENITIES
@@ -337,10 +511,97 @@ async function seed() {
 
                 { propertyId: "property-4", amenityId: "amenity-wifi" },
                 { propertyId: "property-4", amenityId: "amenity-laundry" },
+                // Lakeview Residency
+                {
+                    propertyId: "property-5",
+                    amenityId: "amenity-wifi",
+                },
+                {
+                    propertyId: "property-5",
+                    amenityId: "amenity-gym",
+                },
+                {
+                    propertyId: "property-5",
+                    amenityId: "amenity-laundry",
+                },
+
+                // Andheri Prime
+                {
+                    propertyId: "property-6",
+                    amenityId: "amenity-wifi",
+                },
+                {
+                    propertyId: "property-6",
+                    amenityId: "amenity-security",
+                },
+
+                // Bandra Elite
+                {
+                    propertyId: "property-7",
+                    amenityId: "amenity-wifi",
+                },
+                {
+                    propertyId: "property-7",
+                    amenityId: "amenity-parking",
+                },
+                {
+                    propertyId: "property-7",
+                    amenityId: "amenity-gym",
+                },
+                {
+                    propertyId: "property-7",
+                    amenityId: "amenity-security",
+                },
+
+                // Ghatkopar Gardens
+                {
+                    propertyId: "property-8",
+                    amenityId: "amenity-wifi",
+                },
+                {
+                    propertyId: "property-8",
+                    amenityId: "amenity-laundry",
+                },
+                {
+                    propertyId: "property-8",
+                    amenityId: "amenity-security",
+                },
+
+                // BKC Corporate Stay
+                {
+                    propertyId: "property-9",
+                    amenityId: "amenity-wifi",
+                },
+                {
+                    propertyId: "property-9",
+                    amenityId: "amenity-gym",
+                },
+                {
+                    propertyId: "property-9",
+                    amenityId: "amenity-parking",
+                },
+                {
+                    propertyId: "property-9",
+                    amenityId: "amenity-security",
+                },
+
+                // Powai Lake Homes
+                {
+                    propertyId: "property-10",
+                    amenityId: "amenity-wifi",
+                },
+                {
+                    propertyId: "property-10",
+                    amenityId: "amenity-laundry",
+                },
+                {
+                    propertyId: "property-10",
+                    amenityId: "amenity-parking",
+                },
             ],
         });
 
-        console.log("✅ Properties connected to amenities");
+        console.log(" Properties connected to amenities");
 
 
         // USER → LOCATION
@@ -357,10 +618,34 @@ async function seed() {
                 { userId: "user-2", locationId: "loc-bandra" },
                 { userId: "user-3", locationId: "loc-bkc" },
                 { userId: "user-4", locationId: "loc-powai" },
+                {
+                    userId: "user-5",
+                    locationId: "loc-bkc",
+                },
+                {
+                    userId: "user-6",
+                    locationId: "loc-andheri",
+                },
+                {
+                    userId: "user-7",
+                    locationId: "loc-bkc",
+                },
+                {
+                    userId: "user-8",
+                    locationId: "loc-bandra",
+                },
+                {
+                    userId: "user-9",
+                    locationId: "loc-powai",
+                },
+                {
+                    userId: "user-10",
+                    locationId: "loc-ghatkopar",
+                },
             ],
         });
 
-        console.log("✅ Users connected to locations");
+        console.log(" Users connected to locations");
 
 
         // USER → LIFESTYLE
@@ -380,7 +665,118 @@ async function seed() {
             ],
         });
 
-        console.log("✅ Users connected to lifestyles");
+        console.log(" Users connected to lifestyles");
+        // =========================
+        // USER → AMENITIES
+        // =========================
+
+        await session.run(
+            `
+  UNWIND $connections AS connection
+
+  MATCH (u:User {id: connection.userId})
+  MATCH (a:Amenity {id: connection.amenityId})
+
+  MERGE (u)-[:WANTS]->(a)
+  `,
+            {
+                connections: [
+                    // Rahul
+                    { userId: "user-1", amenityId: "amenity-wifi" },
+                    { userId: "user-1", amenityId: "amenity-gym" },
+
+                    // Priya
+                    { userId: "user-2", amenityId: "amenity-wifi" },
+                    { userId: "user-2", amenityId: "amenity-laundry" },
+
+                    // Ankit
+                    { userId: "user-3", amenityId: "amenity-gym" },
+                    { userId: "user-3", amenityId: "amenity-parking" },
+                    { userId: "user-3", amenityId: "amenity-wifi" },
+
+                    // Neha
+                    { userId: "user-4", amenityId: "amenity-wifi" },
+                    { userId: "user-4", amenityId: "amenity-security" },
+                    // Aarav
+                    {
+                        userId: "user-5",
+                        amenityId: "amenity-wifi",
+                    },
+                    {
+                        userId: "user-5",
+                        amenityId: "amenity-gym",
+                    },
+                    {
+                        userId: "user-5",
+                        amenityId: "amenity-parking",
+                    },
+
+                    // Isha
+                    {
+                        userId: "user-6",
+                        amenityId: "amenity-wifi",
+                    },
+                    {
+                        userId: "user-6",
+                        amenityId: "amenity-laundry",
+                    },
+
+                    // Vikram
+                    {
+                        userId: "user-7",
+                        amenityId: "amenity-wifi",
+                    },
+                    {
+                        userId: "user-7",
+                        amenityId: "amenity-gym",
+                    },
+                    {
+                        userId: "user-7",
+                        amenityId: "amenity-security",
+                    },
+
+                    // Meera
+                    {
+                        userId: "user-8",
+                        amenityId: "amenity-wifi",
+                    },
+                    {
+                        userId: "user-8",
+                        amenityId: "amenity-security",
+                    },
+
+                    // Rohan
+                    {
+                        userId: "user-9",
+                        amenityId: "amenity-wifi",
+                    },
+                    {
+                        userId: "user-9",
+                        amenityId: "amenity-gym",
+                    },
+                    {
+                        userId: "user-9",
+                        amenityId: "amenity-parking",
+                    },
+
+                    // Kavya
+                    {
+                        userId: "user-10",
+                        amenityId: "amenity-wifi",
+                    },
+                    {
+                        userId: "user-10",
+                        amenityId: "amenity-laundry",
+                    },
+                    {
+                        userId: "user-10",
+                        amenityId: "amenity-security",
+                    },
+                ],
+            }
+        );
+
+        console.log("Users connected to preferred amenities");
 
 
         // USER → COMPANY
@@ -397,10 +793,71 @@ async function seed() {
                 { userId: "user-2", companyId: "company-infosys" },
                 { userId: "user-3", companyId: "company-accenture" },
                 { userId: "user-4", companyId: "company-google" },
+                {
+                    userId: "user-5",
+                    companyId: "company-google",
+                },
+                {
+                    userId: "user-6",
+                    companyId: "company-infosys",
+                },
+                {
+                    userId: "user-7",
+                    companyId: "company-accenture",
+                },
+                {
+                    userId: "user-8",
+                    companyId: "company-tcs",
+                },
+                {
+                    userId: "user-9",
+                    companyId: "company-google",
+                },
+                {
+                    userId: "user-10",
+                    companyId: "company-infosys",
+                },
             ],
         });
 
-        console.log("✅ Users connected to companies");
+        console.log(" Users connected to companies");
+
+
+        // COMPANY → LOCATION
+
+
+        await session.run(
+            `
+  UNWIND $connections AS connection
+
+  MATCH (c:Company {id: connection.companyId})
+  MATCH (l:Location {id: connection.locationId})
+
+  MERGE (c)-[:LOCATED_IN]->(l)
+  `,
+            {
+                connections: [
+                    {
+                        companyId: "company-tcs",
+                        locationId: "loc-andheri",
+                    },
+                    {
+                        companyId: "company-infosys",
+                        locationId: "loc-bandra",
+                    },
+                    {
+                        companyId: "company-accenture",
+                        locationId: "loc-bkc",
+                    },
+                    {
+                        companyId: "company-google",
+                        locationId: "loc-powai",
+                    },
+                ],
+            }
+        );
+
+        console.log("Companies connected to locations");
 
 
         // PROPERTY → METRO
@@ -417,15 +874,39 @@ async function seed() {
                 { propertyId: "property-2", stationId: "metro-bandra" },
                 { propertyId: "property-3", stationId: "metro-bkc" },
                 { propertyId: "property-4", stationId: "metro-powai" },
+                {
+                    propertyId: "property-5",
+                    stationId: "metro-powai",
+                },
+                {
+                    propertyId: "property-6",
+                    stationId: "metro-andheri",
+                },
+                {
+                    propertyId: "property-7",
+                    stationId: "metro-bandra",
+                },
+                {
+                    propertyId: "property-8",
+                    stationId: "metro-andheri",
+                },
+                {
+                    propertyId: "property-9",
+                    stationId: "metro-bkc",
+                },
+                {
+                    propertyId: "property-10",
+                    stationId: "metro-powai",
+                },
             ],
         });
 
-        console.log("✅ Properties connected to metro stations");
+        console.log(" Properties connected to metro stations");
 
-        console.log("🎉 SmartStay graph created successfully!");
+        console.log(" SmartStay graph created successfully!");
 
     } catch (error) {
-        console.error("❌ Seed failed:", error);
+        console.error("Seed failed:", error);
     } finally {
         await session.close();
         await driver.close();

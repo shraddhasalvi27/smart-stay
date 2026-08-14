@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
-
 dotenv.config({ path: ".env.local" });
-
+//tested wether graph is working or not - debugging purpose
 async function checkGraph() {
   const { driver } = await import("../lib/congodb");
 
@@ -33,5 +32,4 @@ async function checkGraph() {
     await driver.close();
   }
 }
-
 checkGraph();

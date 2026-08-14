@@ -1,15 +1,10 @@
 import dotenv from "dotenv";
-
 dotenv.config({ path: ".env.local" });
-
-// import { getPropertyRecommendations } from "../lib/queries/propertyRecommendation";
-// import { getPropertyRecommendations } from "@/lib/queries/properties";
-
+//initial testing for api
 async function test() {
-     const { getPropertyRecommendations } =
+     const { recommendProperties } =
     await import("../lib/queries/properties");
-  const recommendations = await getPropertyRecommendations("user-1");
-
+  const recommendations = await recommendProperties("user-1");
   console.table(recommendations);
 }
 
